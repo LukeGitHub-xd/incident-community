@@ -1,145 +1,284 @@
-# Incident Community - 开源版
+Incident Community
 
-## 🎯 项目简介
+🚑 Incident Community 是一个轻量级日志分析工具，帮助开发者快速定位系统异常并生成结构化事故报告。
 
-**Incident Community** 是一个轻量级日志分析工具，专注于帮助开发者快速定位和分析系统异常。
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-21+-blue">
+  <img src="https://img.shields.io/badge/SpringBoot-3.x-green">
+  <img src="https://img.shields.io/badge/PostgreSQL-17+-blue">
+  <img src="https://img.shields.io/badge/License-MIT-yellow">
+</p>
 
-### ✨ 核心功能
 
-- 📤 **日志上传**: 支持文件上传和文本输入两种方式
-- 🔍 **智能分析**: 基于规则引擎自动识别异常根因
-- 📊 **可视化报告**: 生成结构化的事故分析报告
-- 💾 **多格式导出**: 支持 Markdown、HTML、PDF 格式下载
-- 🆓 **完全开源**: 免费使用，无商业限制
 
----
+⸻
 
-## 🚀 快速开始
+🚀 为什么要做这个项目？
 
-### 环境要求
+在真实生产环境中，很多团队都会遇到同一个问题：
+	•	系统出事故后，需要花 大量时间翻日志
+	•	事故复盘通常 依赖人工整理
+	•	日志信息杂乱，很难快速定位根因
+	•	事故报告写起来 费时费力
 
-- Java 21+
-- PostgreSQL 17+
-- Maven 3.6+
+Incident Community 的目标就是解决这些问题。
 
-### 安装步骤
+上传日志 → 自动分析 → 生成结构化事故报告。
 
-1. **克隆项目**
-```bash
-git clone https://github.com/your-org/incident-community.git
+⸻
+
+✨ 核心功能
+
+📤 日志上传分析
+
+支持两种方式：
+	•	文件上传
+	•	文本日志输入
+
+⸻
+
+🔍 自动异常识别
+
+基于规则引擎自动识别：
+	•	Exception
+	•	Error
+	•	Timeout
+	•	Database errors
+	•	服务调用失败
+
+并生成分析结果。
+
+⸻
+
+📊 结构化事故报告
+
+系统自动生成完整事故分析报告，包括：
+	•	事故概述
+	•	异常日志
+	•	根因分析
+	•	影响范围
+	•	修复建议
+
+⸻
+
+💾 多格式导出
+
+支持下载报告：
+	•	Markdown
+	•	HTML
+	•	PDF
+
+方便：
+	•	内部复盘
+	•	技术博客
+	•	团队知识沉淀
+
+⸻
+
+📸 示例报告
+
+生成的 Markdown 报告示例：
+
+# Incident Report
+
+## Incident Summary
+Service: payment-service  
+Environment: production
+
+## Root Cause
+Database connection timeout caused service failure.
+
+## Impact
+Payment requests failed for 3 minutes.
+
+## Recommendation
+Increase database connection pool size.
+
+
+⸻
+
+🏗️ 项目架构
+
+项目采用 分层架构设计：
+
+incident-community
+│
+├── incident-api
+│   REST API 接口层
+│
+├── incident-core
+│   核心业务逻辑
+│
+├── incident-infrastructure
+│   基础设施层
+│
+└── incident-rule-engine
+    日志规则分析引擎
+
+技术栈：
+
+技术	说明
+Spring Boot	后端框架
+PostgreSQL	数据库
+Maven	构建工具
+Thymeleaf	模板引擎
+OpenHTMLToPDF	PDF 生成
+
+
+⸻
+
+⚡ 快速开始
+
+环境要求
+	•	Java 21+
+	•	PostgreSQL 17+
+	•	Maven 3.6+
+
+⸻
+
+1️⃣ 克隆项目
+
+git clone https://github.com/LukeGitHub-xd/incident-community.git
 cd incident-community
-```
 
-2. **配置数据库**
-```sql
+
+⸻
+
+2️⃣ 创建数据库
+
 CREATE DATABASE incident_db;
-```
 
-3. **修改配置文件**
-编辑 `incident-api/src/main/resources/application.yml`:
-```yaml
+
+⸻
+
+3️⃣ 修改配置
+
+编辑：
+
+incident-api/src/main/resources/application.yml
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/incident_db
     username: postgres
     password: your_password
-```
 
-4. **构建并运行**
-```bash
+
+⸻
+
+4️⃣ 启动服务
+
 mvn clean package -DskipTests
+
 java -jar incident-api/target/incident-api-1.0.0.jar
-```
 
-5. **访问服务**
-打开浏览器访问：http://localhost:8080/api
 
----
+⸻
 
-## 📖 API 使用指南
+5️⃣ 访问 API
 
-### 1. 上传日志文件
+http://localhost:8080/api
 
-```bash
+
+⸻
+
+📖 API 示例
+
+上传日志文件
+
 curl -X POST http://localhost:8080/api/incidents/upload \
   -F "file=@error.log" \
   -F "serviceName=my-service" \
   -F "env=production"
-```
 
-### 2. 文本日志分析
 
-```bash
+⸻
+
+文本日志分析
+
 curl -X POST "http://localhost:8080/api/incidents/analyze-text?log=ERROR...&serviceName=test&env=dev"
-```
 
-### 3. 获取分析洞察
 
-```bash
+⸻
+
+获取分析结果
+
 curl http://localhost:8080/api/incidents/{incidentId}/insight
-```
 
-### 4. 下载报告
 
-**Markdown 格式:**
-```bash
+⸻
+
+下载报告
+
+Markdown
+
 curl http://localhost:8080/api/incidents/{id}/report/file -o report.md
-```
 
-**HTML 格式:**
-```bash
+HTML
+
 curl http://localhost:8080/api/incidents/{id}/report.html -o report.html
-```
 
-**PDF 格式:**
-```bash
+PDF
+
 curl http://localhost:8080/api/incidents/{id}/report.pdf -o report.pdf
-```
 
----
 
-## 🛠️ 技术栈
+⸻
 
-- **后端框架**: Spring Boot 3.x
-- **数据库**: PostgreSQL
-- **构建工具**: Maven
-- **模板引擎**: Thymeleaf
-- **PDF 生成**: OpenHTMLToPDF
+🆚 开源版 vs 商业版
 
----
+功能	Community	Pro
+日志上传分析	✅	✅
+基础规则引擎	✅	✅
+Markdown 报告	✅	✅
+HTML / PDF 导出	✅	✅
+AI 根因分析	❌	✅
+自动事故复盘	❌	✅
+告警系统集成	❌	✅
+企业支持	❌	✅
 
-## 📝 功能对比
 
-| 功能 | 开源版 | 商业版 |
-|------|--------|--------|
-| 日志上传分析 | ✅ | ✅ |
-| 基础规则引擎 | ✅ | ✅ |
-| Markdown 报告 | ✅ | ✅ |
-| HTML/PDF导出 | ✅ | ✅ |
-| AI 智能分析 | ❌ | ✅ |
-| 告警集成 | ❌ | ✅ |
-| 自定义报告策略 | ❌ | ✅ |
-| 技术支持 | 社区 | 专业团队 |
+⸻
 
----
+🤝 贡献
 
-## 🤝 贡献指南
+欢迎贡献代码：
+	1.	Fork 项目
+	2.	创建 Feature Branch
+	3.	提交 PR
 
-欢迎提交 Issue 和 Pull Request！
+⸻
 
----
-
-## 📄 开源协议
+📄 License
 
 MIT License
 
----
+⸻
 
-## 📧 联系方式
+⭐ Star History
 
-- 项目地址：https://github.com/LukeGitHub-xd/incident-community
-- 问题反馈：https://github.com/LukeGitHub-xd/incident-community/issues
+如果这个项目对你有帮助，欢迎给一个 Star ⭐
 
----
+你的支持会让项目持续发展。
 
-**🎉 开源版 - 让日志分析更简单！**
+⸻
+
+📮 联系方式
+
+GitHub：
+
+https://github.com/LukeGitHub-xd/incident-community
+
+Issue：
+
+https://github.com/LukeGitHub-xd/incident-community/issues
+
+
+⸻
+
+🎯 未来规划
+	•	AI Root Cause Analysis
+	•	LLM 自动事故复盘
+	•	Kubernetes 日志集成
+	•	告警系统集成
+	
