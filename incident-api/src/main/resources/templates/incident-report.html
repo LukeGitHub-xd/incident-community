@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Incident Analysis Report</title>
+
+    <style>
+
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background:#f7f7f7;
+            margin:0;
+            padding:30px;
+        }
+
+        h1{
+            color:#333;
+        }
+
+        .section{
+            margin-top:30px;
+        }
+
+        .card{
+            background:white;
+            border-radius:8px;
+            padding:20px;
+            box-shadow:0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:10px;
+        }
+
+        .table th{
+            background:#f2f2f2;
+            text-align:left;
+            padding:8px;
+        }
+
+        .table td{
+            border-top:1px solid #eee;
+            padding:8px;
+        }
+
+        .impact{
+            padding:4px 10px;
+            border-radius:12px;
+            font-size:12px;
+            color:#fff;
+        }
+
+        .HIGH{
+            background:#d32f2f;
+        }
+
+        .MEDIUM{
+            background:#f57c00;
+        }
+
+        .LOW{
+            background:#388e3c;
+        }
+
+        .tag{
+            background:#e0e0e0;
+            padding:4px 8px;
+            border-radius:8px;
+            font-size:12px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>🚨 Incident Analysis Report</h1>
+
+<div class="section">
+    <h2>Executive Summary</h2>
+    <div class="card">
+
+        <p>
+            <strong>Service:</strong>
+            <span th:text="${report.service}"></span>
+        </p>
+
+        <p>
+            <strong>Environment:</strong>
+            <span th:text="${report.env}"></span>
+        </p>
+
+        <p>
+            <strong>Summary:</strong>
+            <span th:text="${report.report.executiveSummary.summary}"></span>
+        </p>
+
+        <p>
+            <strong>Severity:</strong>
+            <span th:text="${report.report.executiveSummary.severity}"></span>
+        </p>
+
+    </div>
+</div>
+
+
+<div class="section">
+    <h2>Impact Overview</h2>
+
+    <div class="card">
+
+        <p>
+            <strong>Affected Services:</strong>
+            <span th:text="${report.report.impact.affectedServices}"></span>
+        </p>
+
+        <p>
+            <strong>User Impact:</strong>
+            <span th:text="${report.report.impact.userImpact}"></span>
+        </p>
+
+        <p>
+            <strong>Duration:</strong>
+            <span th:text="${report.report.impact.duration}"></span>
+        </p>
+
+    </div>
+</div>
+
+
+<div class="section">
+    <h2>Root Cause Analysis</h2>
+
+    <div class="card">
+
+        <p>
+            <strong>Root Cause:</strong>
+            <span th:text="${report.report.rootCause.rootCause}"></span>
+        </p>
+
+        <p>
+            <strong>Location:</strong>
+            <span th:text="${report.report.rootCause.location}"></span>
+        </p>
+
+        <p>
+            <strong>Exception Type:</strong>
+            <span th:text="${report.report.rootCause.exceptionType}"></span>
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="section">
+    <h2>Key Signals</h2>
+
+    <div class="card">
+
+        <table class="table">
+
+            <thead>
+            <tr>
+                <th>Signal Type</th>
+                <th>Source</th>
+                <th>Description</th>
+                <th>Importance</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="s : ${report.report.keySignals}">
+
+                <td th:text="${s.type}"></td>
+                <td th:text="${s.source}"></td>
+                <td th:text="${s.description}"></td>
+                <td th:text="${s.importance}"></td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<div class="section">
+    <h2>Incident Timeline</h2>
+
+    <div class="card">
+
+        <table class="table">
+
+            <thead>
+            <tr>
+                <th>Time</th>
+                <th>Event</th>
+                <th>Source</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="t : ${report.report.timeline}">
+                <td th:text="${t.time}"></td>
+                <td th:text="${t.event}"></td>
+                <td th:text="${t.source}"></td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(report.report.timeline)}">
+                <td colspan="3">No timeline data</td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<div class="section">
+
+    <h2>Error Trend</h2>
+
+    <div class="card">
+
+        <table class="table">
+
+            <thead>
+            <tr>
+                <th>Minute</th>
+                <th>Error Count</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="t : ${report.report.errorTrend}">
+                <td th:text="${t.minute}"></td>
+                <td th:text="${t.errorCount}"></td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<div class="section">
+
+    <h2>Service Impact</h2>
+
+    <div class="card">
+
+        <table class="table">
+
+            <thead>
+            <tr>
+                <th>Service</th>
+                <th>Impact Level</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="s : ${report.report.serviceImpact}">
+
+                <td th:text="${s.service}"></td>
+
+                <td>
+<span class="impact"
+      th:classappend="${s.level}"
+      th:text="${s.level}">
+</span>
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<div class="section">
+
+    <h2>Recommended Actions</h2>
+
+    <div class="card">
+
+        <ul>
+            <li th:each="a : ${report.report.actionPlan.actions}"
+                th:text="${a}">
+            </li>
+        </ul>
+
+    </div>
+
+</div>
+
+
+<div class="section">
+
+    <h2>AI Confidence</h2>
+
+    <div class="card">
+
+        <p>
+            <strong>Confidence Score:</strong>
+            <span th:text="${report.report.confidence.confidenceScore}">
+</span>
+        </p>
+
+        <p>
+            <strong>Confidence Level:</strong>
+            <span th:text="${report.report.confidence.confidenceLevel}">
+</span>
+        </p>
+
+        <p><strong>Supporting Evidence</strong></p>
+
+        <ul>
+            <li th:each="f : ${report.report.confidence.factors}"
+                th:text="${f}">
+            </li>
+        </ul>
+
+        <p><strong>Risk Notes</strong></p>
+
+        <ul>
+            <li th:each="c : ${report.report.confidence.caveats}"
+                th:text="${c}">
+            </li>
+        </ul>
+
+    </div>
+
+</div>
+
+</body>
+</html>

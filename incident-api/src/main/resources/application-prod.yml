@@ -1,0 +1,82 @@
+license:
+  path: license/license.lic
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/inclined_db
+    username: inclined
+    password: XXXXX
+  jpa:
+    hibernate:
+      ddl-auto: none
+incident:
+  loki:
+    base-url: ${LOKI_URL:}
+    service-label: service_name
+    # 不配置 env
+    # 不配置 namespace
+    # k8s环境
+  #  service-label: app
+  #  namespace-label: namespace
+  #  env-label: env
+  notify:
+    wecom:
+      enabled: true
+      webhook: ${WECOM_WEBHOOK:}
+    slack:
+      enabled: true
+      webhook: ${SLACK_WEBHOOK:}
+    dingtalk:
+      enabled: true
+      webhook: ${DINGTALK_WEBHOOK:}
+    feishu:
+      enabled: true
+      webhook: ${FEISHU_WEBHOOK:}
+
+
+  rule:
+    scan-interval-seconds: ${INCIDENT_SCAN_INTERVAL:30}
+    mode: ${INCIDENT_MODE:auto}  # external 只接收 Alertmanager/ builtin 只接收 Alertmanager / auto 如果收到 webhook 用 external，否则启用 builtin
+  # 没有alertmanager、rule的情况下，平台支持rule
+  services: oa-server,admin-server
+  rules:
+    # 默认规则（适用于所有服务）
+    - name: default-high-error
+      priority: 100
+      enabled: true
+      match:
+        services: ["*"]
+      when:
+        all:
+          - field: errorRate
+            op: gt
+            value: 5
+      severity: P2
+
+    # 指定服务组
+    - name: core-service-critical
+      priority: 200
+      enabled: true
+      match:
+        services: ["xfxk-*"]
+      when:
+        all:
+          - field: env
+            op: eq
+            value: dev
+          - field: errorRate
+            op: gt
+            value: 3
+      severity: P1
+
+    # 正则匹配
+    - name: memory-oom
+      priority: 300
+      enabled: true
+      match:
+        servicesRegex: ".*-server"
+      when:
+        any:
+          - field: log
+            op: contains
+            value: OutOfMemoryError
+      severity: P0

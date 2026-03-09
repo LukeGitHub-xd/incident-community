@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>事故分析报告</title>
+
+    <style>
+
+        body{
+            font-family: SimHei;
+            background:#f5f6fa;
+            padding:30px;
+        }
+
+        h1{
+            margin-bottom:20px;
+        }
+
+        .section{
+            margin-top:30px;
+        }
+
+        .card{
+            background:#fff;
+            border-radius:8px;
+            padding:20px;
+            box-shadow:0 2px 4px rgba(0,0,0,0.08);
+        }
+
+        .table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        .table th{
+            background:#f0f2f5;
+            padding:8px;
+            text-align:left;
+        }
+
+        .table td{
+            padding:8px;
+            border-top:1px solid #eee;
+        }
+
+        .impact{
+            padding:4px 10px;
+            border-radius:12px;
+            font-size:12px;
+            color:#fff;
+        }
+
+        .HIGH{ background:#d32f2f; }
+        .MEDIUM{ background:#f57c00; }
+        .LOW{ background:#388e3c; }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>🚨 事故分析报告</h1>
+
+<div class="section">
+    <div class="card">
+
+        <p><b>服务：</b><span th:text="${report.report.impact.serviceName}"></span></p>
+        <p><b>环境：</b><span th:text="${report.report.impact.env}"></span></p>
+        <p><b>发生时间：</b><span th:text="${report.report.impact.occurTime}"></span></p>
+        <p><b>报告ID：</b><span th:text="${report.incidentId}"></span></p>
+        <p><b>生成时间：</b><span th:text="${report.generatedAt}"></span></p>
+
+    </div>
+</div>
+
+
+<!-- 一、执行摘要 -->
+
+<div class="section">
+    <h2>一、执行摘要</h2>
+
+    <div class="card">
+
+        <table class="table">
+
+            <tr>
+                <th>严重等级</th>
+                <td th:text="${report.report.executiveSummary.severity}"></td>
+            </tr>
+
+            <tr>
+                <th>用户影响</th>
+                <td th:text="${report.report.executiveSummary.userImpact}"></td>
+            </tr>
+
+            <tr>
+                <th>建议动作</th>
+                <td th:text="${report.report.executiveSummary.recommendedActionStr}"></td>
+            </tr>
+
+            <tr>
+                <th>当前状态</th>
+                <td th:text="${report.report.executiveSummary.statusStr}"></td>
+            </tr>
+
+        </table>
+
+        <p style="margin-top:15px;">
+            <b>摘要：</b>
+            <span th:text="${report.report.executiveSummary.headline}"></span>
+        </p>
+
+    </div>
+</div>
+
+
+<!-- 二、已确认根因 -->
+
+<div class="section">
+    <h2>二、已确认根因</h2>
+
+    <div class="card">
+
+        <ul>
+            <li th:each="r : ${report.report.rootCause.confirmedRootCauses}"
+                th:text="${r}">
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+
+<!-- 三、疑似根因 -->
+
+<div class="section">
+    <h2>三、疑似根因</h2>
+
+    <div class="card">
+
+        <ul>
+            <li th:each="r : ${report.report.rootCause.suspectedRootCauses}"
+                th:text="${r}">
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+
+<!-- 四、不确定因素 -->
+
+<div class="section">
+    <h2>四、不确定因素</h2>
+
+    <div class="card">
+
+        <ul>
+            <li th:each="r : ${report.report.rootCause.uncertainties}"
+                th:text="${r}">
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+
+<!-- 五、立即处理 -->
+
+<div class="section">
+    <h2>五、立即处理</h2>
+
+    <div class="card">
+
+        <ul>
+            <li th:each="r : ${report.report.actionPlan.immediateActions}"
+                th:text="${r}">
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+
+<!-- 六、短期改进 -->
+
+<div class="section">
+    <h2>六、短期改进</h2>
+
+    <div class="card">
+
+        <ul>
+            <li th:each="r : ${report.report.actionPlan.shortTermImprovements}"
+                th:text="${r}">
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+
+<!-- 七、长期优化 -->
+
+<div class="section">
+    <h2>七、长期优化</h2>
+
+    <div class="card">
+
+        <ul>
+            <li th:each="r : ${report.report.actionPlan.longTermImprovements}"
+                th:text="${r}">
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+
+<!-- 八、关键证据 -->
+
+<div class="section">
+    <h2>八、关键证据</h2>
+
+    <div class="card">
+
+        <table class="table">
+
+            <thead>
+            <tr>
+                <th>来源</th>
+                <th>重要性</th>
+                <th>描述</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="s : ${report.report.keySignals}">
+
+                <td th:text="${s.source}"></td>
+                <td th:text="${s.importance}"></td>
+                <td th:text="${s.description}"></td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+
+<!-- 九、AI置信度 -->
+
+<div class="section">
+    <h2>九、AI置信度</h2>
+
+    <div class="card">
+
+        <p>
+            <b>信心评分：</b>
+            <span th:text="${report.report.confidence.confidenceScore}"></span>
+        </p>
+
+        <p>
+            <b>置信等级：</b>
+            <span th:text="${report.report.confidence.confidenceLevel}"></span>
+        </p>
+
+        <p><b>支撑因素</b></p>
+
+        <ul>
+            <li th:each="f : ${report.report.confidence.confidenceFactors}"
+                th:text="${f}">
+            </li>
+        </ul>
+
+        <p><b>风险提示</b></p>
+
+        <ul>
+            <li th:each="f : ${report.report.confidence.caveats}"
+                th:text="${f}">
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+
+<!-- 十、事故时间线 -->
+
+<div class="section">
+    <h2>十、事故时间线</h2>
+
+    <div class="card">
+
+        <table class="table">
+
+            <thead>
+            <tr>
+                <th>时间</th>
+                <th>事件</th>
+                <th>来源</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="t : ${report.report.timeline}">
+                <td th:text="${t.time}"></td>
+                <td th:text="${t.event}"></td>
+                <td th:text="${t.source}"></td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+
+<!-- 十一、异常趋势 -->
+
+<div class="section">
+    <h2>十一、异常趋势</h2>
+
+    <div class="card">
+
+        <table class="table">
+
+            <thead>
+            <tr>
+                <th>时间</th>
+                <th>错误数</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="t : ${report.report.errorTrend}">
+                <td th:text="${t.minute}"></td>
+                <td th:text="${t.errorCount}"></td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+
+<!-- 十二、服务影响 -->
+
+<div class="section">
+    <h2>十二、服务影响</h2>
+
+    <div class="card">
+
+        <table class="table">
+
+            <thead>
+            <tr>
+                <th>服务</th>
+                <th>影响等级</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="s : ${report.report.serviceImpact}">
+
+                <td th:text="${s.service}"></td>
+
+                <td>
+<span class="impact"
+      th:classappend="${s.level}"
+      th:text="${s.level}">
+</span>
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+
+</body>
+</html>

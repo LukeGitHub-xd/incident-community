@@ -1,0 +1,25 @@
+# 开源版配置 - 简化版
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/incident_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    cn.jc.incident: DEBUG
