@@ -13,6 +13,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/incident-ai/pom.xml" />
+        <option value="$PROJECT_DIR$/incident-infrastructure/pom.xml" />
       </set>
     </option>
   </component>

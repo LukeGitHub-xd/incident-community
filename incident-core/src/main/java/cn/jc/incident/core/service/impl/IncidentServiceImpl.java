@@ -7,17 +7,13 @@ import cn.jc.incident.core.dto.response.ExecutiveSummary;
 import cn.jc.incident.core.dto.response.IncidentInsightResponse;
 import cn.jc.incident.core.dto.view.IncidentReportView;
 import cn.jc.incident.core.dto.view.RootCauseOverview;
-import cn.jc.incident.core.mapper.IncidentMapper;
 import cn.jc.incident.core.model.*;
 import cn.jc.incident.core.port.LogPreProcessor;
-import cn.jc.incident.core.report.renderer.MarkdownReportRenderer;
+import cn.jc.incident.core.repository.IncidentRepository;
 import cn.jc.incident.core.service.IncidentService;
-import cn.jc.incident.infrastructure.persistence.entity.IncidentEntity;
-import cn.jc.incident.infrastructure.persistence.repository.IncidentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -34,13 +30,11 @@ public class IncidentServiceImpl implements IncidentService {
     private final RootCauseAnalyzer rootCauseAnalyzer;
     private final IncidentInsightAssembler insightAssembler;
     private final IncidentRepository incidentRepository;
-    private final IncidentMapper incidentMapper;
 
     private static final Pattern TIME_PATTERN =
             Pattern.compile("(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})");
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public IncidentInsight analyze(CreateIncidentRequest request, TokenBudget budget) {
         // 开源简化版：只进行基础日志分析，不使用 AI
         Incident incident = Incident.create(request);
@@ -56,9 +50,8 @@ public class IncidentServiceImpl implements IncidentService {
         fillMissingSections(cleanedLog, incident);
             
         // 保存事故记录
-        IncidentEntity entity = incidentMapper.toEntity(incident);
-        incidentRepository.save(entity);
-            
+        // ✅ 内存存储
+        incidentRepository.save(incident);
         return insightAssembler.assemble(incident);
     }
         
@@ -510,8 +503,7 @@ public class IncidentServiceImpl implements IncidentService {
 
     @Override
     public IncidentInsightResponse getInsight(String incidentId) {
-        var entity = incidentRepository.findById(incidentId).orElseThrow();
-        var incident = incidentMapper.toDomain(entity);
+        var incident = incidentRepository.findById(incidentId).orElseThrow(() -> new IllegalArgumentException("Incident not found"));
         IncidentInsight insight = insightAssembler.assemble(incident);
         return IncidentInsightResponse.from(incidentId, insight);
     }
@@ -519,8 +511,7 @@ public class IncidentServiceImpl implements IncidentService {
     @Override
     public IncidentReportView getIncidentReport(String incidentId, ReportPlan plan) {
         // 开源版统一返回标准报告，不区分版本策略
-        var entity = incidentRepository.findById(incidentId).orElseThrow();
-        var incident = incidentMapper.toDomain(entity);
+        var incident = incidentRepository.findById(incidentId).orElseThrow(() -> new IllegalArgumentException("Incident not found"));
         IncidentReportView view = new IncidentReportView();
         
         // 填充基本报告内容
@@ -550,10 +541,7 @@ public class IncidentServiceImpl implements IncidentService {
     }
 
     public IncidentReportRenderModel generateReport(String incidentId) {
-        var incidentEntity = incidentRepository.findById(incidentId)
-                .orElseThrow(() -> new IllegalArgumentException("Incident not found"));
-        var incident = incidentMapper.toDomain(incidentEntity);
-        
+
         IncidentReportView reportView = getIncidentReport(incidentId, ReportPlan.FREE);
         
         return new IncidentReportRenderModel(

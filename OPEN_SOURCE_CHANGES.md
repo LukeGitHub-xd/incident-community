@@ -16,7 +16,6 @@
 **保留的模块:**
 - ✅ `incident-api` - API 接口层
 - ✅ `incident-core` - 核心业务逻辑（简化版）
-- ✅ `incident-infrastructure` - 基础设施层
 
 ### 2. 核心功能简化
 

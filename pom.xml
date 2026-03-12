@@ -21,7 +21,6 @@
     <modules>
         <module>incident-api</module>
         <module>incident-core</module>
-        <module>incident-infrastructure</module>
     </modules>
 
     <dependencies>
@@ -38,11 +37,6 @@
             <dependency>
                 <groupId>cn.jc</groupId>
                 <artifactId>incident-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.jc</groupId>
-                <artifactId>incident-infrastructure</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

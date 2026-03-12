@@ -11,13 +11,13 @@
           <entry name="$USER_HOME$/maven/local/jarPackage/org/springframework/boot/spring-boot-configuration-processor/3.5.9/spring-boot-configuration-processor-3.5.9.jar" />
           <entry name="$USER_HOME$/maven/local/jarPackage/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
-        <module name="incident-infrastructure" />
         <module name="incident-api" />
         <module name="incident-core" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="incident-ai" target="21" />
+      <module name="incident-infrastructure" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

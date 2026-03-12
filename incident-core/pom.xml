@@ -11,11 +11,6 @@
     <artifactId>incident-core</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>cn.jc</groupId>
-            <artifactId>incident-infrastructure</artifactId>
-            <version>1.0.0</version>
-        </dependency>
 
         <!-- 工具类库 -->
         <dependency>

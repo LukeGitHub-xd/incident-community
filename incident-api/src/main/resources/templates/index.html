@@ -5,9 +5,10 @@
     <title>AI事故分析 Demo</title>
 
     <style>
+
         body{
             font-family:Arial;
-            max-width:800px;
+            max-width:900px;
             margin:40px auto;
         }
 
@@ -25,8 +26,10 @@
         #result{
             margin-top:30px;
             padding:20px;
-            background:#f5f5f5;
+            background:#f6f6f6;
+            border-radius:6px;
         }
+
     </style>
 
 </head>
@@ -34,11 +37,14 @@
 <body>
 
 <h2>AI 5 秒分析生产事故</h2>
+
 <p>粘贴日志 → 自动生成事故报告</p>
 
 <textarea id="log">
+
 2026-03-08 15:05:09 ERROR GlobalExceptionHandler
 BusinessException: 该业务功能已绑定流程
+
 </textarea>
 
 <br>
@@ -51,25 +57,40 @@ BusinessException: 该业务功能已绑定流程
 
     function analyze(){
 
-        let log=document.getElementById("log").value;
+        let log=document.getElementById("log").value
 
-        fetch("/demo/analyze",{
+        fetch("http://localhost:8080/demo/analyze",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
             },
             body:JSON.stringify({log:log})
         })
-            .then(r=>r.json())
+            .then(res=>res.json())
             .then(data=>{
 
+                let root=data.rootCause?.join("<br>")||"无"
+
+                let suspected=data.suspected?.join("<br>")||"无"
+
                 document.getElementById("result").innerHTML=`
+
 <h3>🚨 AI事故分析报告</h3>
 
 <p><b>严重等级：</b>${data.severity}</p>
-<p><b>结论：</b>${data.conclusion}</p>
-<p><b>根因：</b>${data.rootCause}</p>
+
 <p><b>建议动作：</b>${data.action}</p>
+
+<p><b>可信度：</b>${data.confidence}</p>
+
+<h4>确认根因</h4>
+
+${root}
+
+<h4>疑似根因</h4>
+
+${suspected}
+
 `
 
             })

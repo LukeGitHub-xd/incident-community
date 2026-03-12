@@ -52,11 +52,7 @@
             <artifactId>incident-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>cn.jc</groupId>
-            <artifactId>incident-infrastructure</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

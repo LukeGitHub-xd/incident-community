@@ -57,7 +57,7 @@ public class IncidentController {
     /**
      * 文本日志快速分析
      */
-    @PostMapping("/analyze-text")
+    @PostMapping("/analyze")
     public IncidentInsight analyzeTextLog(
             @RequestParam("log") String logContent,
             @RequestParam("serviceName") String serviceName,
