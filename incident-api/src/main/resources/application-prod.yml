@@ -1,13 +1,3 @@
-license:
-  path: license/license.lic
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/inclined_db
-    username: inclined
-    password: XXXXX
-  jpa:
-    hibernate:
-      ddl-auto: none
 incident:
   loki:
     base-url: ${LOKI_URL:}

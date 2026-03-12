@@ -1,11 +1,4 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/inclined_db
-    username: inclined
-    password: XXX
-  jpa:
-    hibernate:
-      ddl-auto: none
+
 incident:
   loki:
     base-url: http://116.233.96.74:33100
