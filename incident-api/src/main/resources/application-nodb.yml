@@ -1,17 +1,35 @@
 
+# 禁用 JPA/Hibernate 自动配置
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
+# 或者使用更简单的方式，配置一个内存数据库（如果某些组件仍然需要数据源）
+# datasource:
+#   url: jdbc:h2:mem:testdb
+#   driver-class-name: org.h2.Driver
+#   username: sa
+#   password: 
+# jpa:
+#   database-platform: org.hibernate.dialect.H2Dialect
+#   hibernate:
+#     ddl-auto: none
+#   show-sql: false
+
 incident:
   loki:
     base-url: http://116.233.96.74:33100
     label-mapping:
       service: service_name
       env: service
-    # k8s环境
-#      service: app
-#      env: namespace
   notify:
     wecom:
       webhook: ${WECOM_WEBHOOK:}
-      enabled: true
+      enabled: false
     slack:
       webhook: ${SLACK_WEBHOOK:}
       enabled: false
@@ -22,15 +40,12 @@ incident:
       webhook: ${FEISHU_WEBHOOK:}
       enabled: false
 
-
-
   rule:
     scan-interval-seconds: ${INCIDENT_SCAN_INTERVAL:30}
-    mode: ${INCIDENT_MODE:auto}  # external 只接收 Alertmanager/ builtin 只接收 Alertmanager / auto 如果收到 webhook 用 external，否则启用 builtin
-  # 没有alertmanager、rule的情况下，平台支持rule
+    mode: ${INCIDENT_MODE:auto}
   services: order-server,admin-server
   rules:
-    # 默认规则（适用于所有服务）
+    # 默认规则
     - name: default-high-error
       priority: 100
       enabled: true
@@ -48,7 +63,7 @@ incident:
       priority: 200
       enabled: true
       match:
-        services: ["aaa-*"]
+        services: ["aa-*"]
       when:
         all:
           - field: env

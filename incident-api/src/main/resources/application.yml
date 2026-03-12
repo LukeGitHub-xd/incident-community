@@ -9,3 +9,8 @@ logging:
   level:
     root: INFO
     cn.jc.incident: DEBUG
+spring:
+  application:
+    name: incident-community
+  profiles:
+    active: nodb

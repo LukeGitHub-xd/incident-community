@@ -2,8 +2,6 @@ package cn.jc.incident.core.service;
 
 import cn.jc.incident.core.dto.request.CreateIncidentRequest;
 import cn.jc.incident.core.dto.response.IncidentInsightResponse;
-import cn.jc.incident.core.dto.response.IncidentReportResponse;
-import cn.jc.incident.core.dto.response.IncidentResponse;
 import cn.jc.incident.core.dto.view.IncidentReportView;
 import cn.jc.incident.core.model.IncidentInsight;
 import cn.jc.incident.core.model.IncidentReportRenderModel;
