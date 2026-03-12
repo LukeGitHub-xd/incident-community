@@ -1,5 +1,12 @@
 Incident Community
+# Incident AI
 
+AI-powered log incident analyzer for SRE & DevOps
+
+🚀 Analyze production logs and generate incident reports in seconds.
+
+🌐 Live Demo  
+http://116.233.96.74:33025/index.html
 🚑 Incident Community 是一个轻量级日志分析工具，帮助开发者快速定位系统异常并生成结构化事故报告。
 
 <p align="center">
