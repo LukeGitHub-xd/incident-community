@@ -1,17 +1,36 @@
-Incident Community
-# Incident AI
+# Incident Community
 
-AI-powered log incident analyzer for SRE & DevOps
+🚨 Automatic Incident Report Generator for DevOps
 
-🚀 Analyze production logs and generate incident reports in seconds.
+When production errors happen,  
+generate a structured incident report in seconds.
 
-🌐 Live Demo  
+Stop reading thousands of log lines.
+Let the system summarize the incident for you.
+
+🌐 Live Demo (read-only example)
 http://116.233.96.74:33025/index.html
 
 ## Demo
 
 ![demo](docs/demo.gif)
 
+📄 Automatic Postmortem Report
+Incident Community automatically generates
+a postmortem-style report including:
+
+• Timeline
+• Root cause hypothesis
+• Key evidence
+• Impact scope
+• Suggested actions
+
+👥 Who should use this?
+
+• DevOps engineers
+• SRE teams
+• Backend developers
+• Small teams without full observability platforms
 
 
 🚑 Incident Community 是一个轻量级日志分析工具，帮助开发者快速定位系统异常并生成结构化事故报告。
