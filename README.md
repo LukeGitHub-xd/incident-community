@@ -6,24 +6,68 @@
 
 **开源版免费自用** | **商业版提供完整AI根因分析 + 告警集成 + 技术支持**
 
-### ⚡ 2分钟快速启动（推荐）
 
-1. 克隆仓库
-2. 复制 `.env.example` 为 `.env`，按下面填写关键配置：
 
-```env
-# Loki（必填）
-LOKI_URL=http://your-loki:3100
 
-# 企业微信（强烈推荐）
-WECOM_WEBHOOK=https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=你的机器人key
 
-# AI（推荐 DeepSeek 或本地 Ollama）
-AI_PROVIDER=deepseek
-AI_API_KEY_DEEPSEEK=sk-你的key
+## 🚀 支持阿里云计算巢一键私有化部署（推荐企业用户）
 
-# 数据库（默认即可）
-POSTGRES_PASSWORD=YourStrongPasswordHere123!
+无需自己管理ECS，只需在计算巢填写以下参数即可完成部署：
+
+- Loki / Prometheus 地址
+- 企业微信（或钉钉/飞书）Webhook
+- AI模型选择（Qwen / DeepSeek 等）及对应 API Key
+- 其他通知渠道配置
+
+部署完成后，引擎自动连接您的现有监控环境，实现：
+- 从 Loki 拉取异常日志
+- AI 智能根因分析（已确认根因、疑似问题、置信度）
+- 生成结构化事故报告
+- 一键推送至企业微信 / 钉钉 / 飞书 / 邮件 / 短信
+
+**完全私有化**：所有日志和数据留在您自己的阿里云账号内。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Incident Community
 
