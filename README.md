@@ -1,3 +1,30 @@
+
+# Incident Community - AI 事故分析报告引擎（开源版）
+
+🚨 Loki 日志 2 分钟部署完成 → 自动生成结构化事故报告  
+支持企业微信、钉钉、飞书推送 | 多AI模型（DeepSeek / 通义千问 / Grok / Ollama本地等）
+
+**开源版免费自用** | **商业版提供完整AI根因分析 + 告警集成 + 技术支持**
+
+### ⚡ 2分钟快速启动（推荐）
+
+1. 克隆仓库
+2. 复制 `.env.example` 为 `.env`，按下面填写关键配置：
+
+```env
+# Loki（必填）
+LOKI_URL=http://your-loki:3100
+
+# 企业微信（强烈推荐）
+WECOM_WEBHOOK=https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=你的机器人key
+
+# AI（推荐 DeepSeek 或本地 Ollama）
+AI_PROVIDER=deepseek
+AI_API_KEY_DEEPSEEK=sk-你的key
+
+# 数据库（默认即可）
+POSTGRES_PASSWORD=YourStrongPasswordHere123!
+
 # Incident Community
 
 🚨 Automatic Incident Report Generator for DevOps
