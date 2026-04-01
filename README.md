@@ -25,6 +25,9 @@
 - 生成结构化事故报告
 - 一键推送至企业微信 / 钉钉 / 飞书 / 邮件 / 短信
 
+incident已经上线阿里云计算巢一键部署，感兴趣可以去看看
+https://computenest.console.aliyun.com/service/cn-hangzhou
+
 **完全私有化**：所有日志和数据留在您自己的阿里云账号内。
 
 
